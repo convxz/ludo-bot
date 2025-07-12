@@ -5,7 +5,7 @@ import (
 )
 
 func HandleMessages(bot *tgbotapi.BotAPI, update tgbotapi.Update) {
-	if update.Message.Text == "" {
+	if update.Message.Text != "" {
 		msg := tgbotapi.NewMessage(update.Message.Chat.ID, update.Message.Text)
 		bot.Send(msg)
 	} else {
