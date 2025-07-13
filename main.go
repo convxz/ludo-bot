@@ -37,7 +37,7 @@ func main() {
 			if update.Message.IsCommand() {
 				handlers.HandleCommands(bot, update, db)
 			} else {
-				handlers.HandleMessages(bot, update)
+				handlers.HandleMessages(bot, update, db)
 			}
 
 		}

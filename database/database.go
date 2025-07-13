@@ -36,3 +36,15 @@ func FirstTouch(update tgbotapi.Update, db gorm.DB) int {
 	}
 	return 2
 }
+
+// возвращает баланс по id
+func CheckBalance(id int, db gorm.DB) int {
+	var user User
+	db.First(&user, id)
+	return int(user.Balance)
+}
+
+// принимает id и balance, чтобы заменить баланс по id
+func ChangeBalance(id int, balance int, db gorm.DB) {
+	db.Model(&User{}).Where("id = ?", id).Update("balance", balance)
+}
