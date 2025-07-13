@@ -1,16 +1,15 @@
 package main
 
 import (
-	// "database/sql"
 	"fmt"
 	"log"
 	"os"
 
+	"github.com/convxz/ludo-bot/database"
 	"github.com/convxz/ludo-bot/handlers"
 
 	tgbotapi "github.com/go-telegram-bot-api/telegram-bot-api/v5"
 	"github.com/joho/godotenv"
-	// _ "github.com/lib/pq"
 )
 
 func main() {
@@ -25,21 +24,7 @@ func main() {
 	fmt.Println("bot created")
 
 	// init db
-	// con := "host=localhost port=5432 user=go password=go1234 dbname=go sslmode=disable"
-	// db, err := sql.Open("postgres", con)
-	// if err != nil {
-	// 	log.Panic(err)
-	// }
-	// fmt.Println("db inited")
-
-	// create table db
-	// cdb := `
-	// CREATE TABLE IF NOT EXISTS userswid (
-	// 	id BIGINT,
-	// 	message varchar(100)
-	// )
-	// `
-	// db.Exec(cdb)
+	db := database.Init()
 
 	// обновления раз в 60 секунд
 	u := tgbotapi.NewUpdate(0)
@@ -50,7 +35,7 @@ func main() {
 	for update := range updates {
 		if update.Message != nil {
 			if update.Message.IsCommand() {
-				handlers.HandleCommands(bot, update)
+				handlers.HandleCommands(bot, update, db)
 			} else {
 				handlers.HandleMessages(bot, update)
 			}
